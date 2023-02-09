@@ -2,12 +2,14 @@ from flask_restx import Resource, Namespace
 
 from dao.model.genre import GenreSchema
 from implemented import genre_service
+from helpers.decorators import auth_required,admin_required
 
 genre_ns = Namespace('genres')
 
 
 @genre_ns.route('/')
 class GenresView(Resource):
+    @auth_required
     def get(self):
         rs = genre_service.get_all()
         res = GenreSchema(many=True).dump(rs)
@@ -16,6 +18,7 @@ class GenresView(Resource):
 
 @genre_ns.route('/<int:rid>')
 class GenreView(Resource):
+    @auth_required
     def get(self, rid):
         r = genre_service.get_user_by_id(rid)
         sm_d = GenreSchema().dump(r)

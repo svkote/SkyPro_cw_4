@@ -2,6 +2,7 @@ from flask import request
 from flask_restx import Resource, Namespace
 
 from implemented import auth_service
+from helpers.decorators import auth_required, admin_required
 
 auth_ns = Namespace('auth')
 
