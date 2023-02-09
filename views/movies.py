@@ -31,7 +31,7 @@ class MoviesView(Resource):
 @movie_ns.route('/<int:bid>')
 class MovieView(Resource):
     def get(self, bid):
-        b = movie_service.get_one(bid)
+        b = movie_service.get_user_by_id(bid)
         sm_d = MovieSchema().dump(b)
         return sm_d, 200
 

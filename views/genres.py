@@ -17,6 +17,6 @@ class GenresView(Resource):
 @genre_ns.route('/<int:rid>')
 class GenreView(Resource):
     def get(self, rid):
-        r = genre_service.get_one(rid)
+        r = genre_service.get_user_by_id(rid)
         sm_d = GenreSchema().dump(r)
         return sm_d, 200
