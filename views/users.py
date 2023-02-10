@@ -16,7 +16,6 @@ class UserView(Resource):
         res = UserSchema(many=True).dump(users)
         return res, 200
 
-    @auth_required
     def post(self):
         data = request.json
         new_user = user_service.create(data)
@@ -31,7 +30,6 @@ class UserView(Resource):
         user_schema = UserSchema().dump(user)
         return user_schema, 200
 
-    @admin_required
     def post(self, uid):
         data = request.json
 
