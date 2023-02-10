@@ -23,8 +23,8 @@ def register_extensions(app):
     api.add_namespace(director_ns)
     api.add_namespace(genre_ns)
     api.add_namespace(movie_ns)
-    api.add_namespace(user_ns)
     api.add_namespace(auth_ns)
+    api.add_namespace(user_ns)
 
     with app.app_context():
         db.create_all()
@@ -34,4 +34,4 @@ app = create_app(Config())
 app.debug = True
 
 if __name__ == '__main__':
-    app.run(host="localhost", port=10001, debug=True)
+    app.run(debug=True)
