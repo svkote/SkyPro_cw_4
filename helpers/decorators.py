@@ -1,3 +1,5 @@
+from functools import wraps
+
 from flask import request
 from flask_restx import abort
 import jwt
@@ -21,11 +23,12 @@ def auth_required(func):
 
         return func(*args, **kwargs)
 
-    return wrapper()
+    return wrapper
 
 
 def admin_required(func):
-    def wrapper(*args, **kwargs):
+    @wraps(func)
+    def decorated_function(*args, **kwargs):
         if 'Authorization' not in request.headers:
             abort(401)
 
@@ -42,4 +45,4 @@ def admin_required(func):
 
         return func(*args, **kwargs)
 
-    return wrapper()
+    return decorated_function
