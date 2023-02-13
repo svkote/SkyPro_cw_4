@@ -27,8 +27,7 @@ def auth_required(func):
 
 
 def admin_required(func):
-    @wraps(func)
-    def decorated_function(*args, **kwargs):
+    def wrapper(*args, **kwargs):
         if 'Authorization' not in request.headers:
             abort(401)
 
@@ -45,4 +44,4 @@ def admin_required(func):
 
         return func(*args, **kwargs)
 
-    return decorated_function
+    return wrapper

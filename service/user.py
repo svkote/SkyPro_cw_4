@@ -26,10 +26,10 @@ class UserService:
             PWD_HASH_SALT,
             PWD_HASH_ITERATIONS)
 
-        return base64.b32encode(hash_digest)
+        return base64.b64encode(hash_digest)
 
     def compare_password(self, hash_pass, password):
-        decode_digest = base64.b32decode(hash_pass)
+        decode_digest = base64.b64decode(hash_pass)
 
         hash_digest = hashlib.pbkdf2_hmac(
             'sha256',
@@ -45,7 +45,6 @@ class UserService:
 
     def update(self, user_data):
         user_data['password'] = self.get_hash(user_data['password'])
-
         return self.dao.update(user_data)
 
     def delete(self, uid):
