@@ -1,6 +1,7 @@
 import base64
 import hashlib
 import hmac
+import re
 
 from dao.user import UserDAO
 from helpers.constants import PWD_HASH_SALT, PWD_HASH_ITERATIONS
@@ -20,31 +21,31 @@ class UserService:
         return self.dao.get_user_by_username(username)
 
     def get_hash(self, password):
-        hash_digest = hashlib.pbkdf2_hmac(
+        return base64.b64encode(hashlib.pbkdf2_hmac(
             'sha256',
             password.encode('utf-8'),
             PWD_HASH_SALT,
-            PWD_HASH_ITERATIONS)
+            PWD_HASH_ITERATIONS
+        ))
 
-        return base64.b64encode(hash_digest)
-
-    def compare_password(self, hash_pass, password):
-        decode_digest = base64.b64decode(hash_pass)
-
-        hash_digest = hashlib.pbkdf2_hmac(
-            'sha256',
-            password.encode('utf-8'),
-            PWD_HASH_SALT,
-            PWD_HASH_ITERATIONS)
-
-        return hmac.compare_digest(decode_digest, hash_digest)
+    def compare_password(self, password_hash, other_password):
+        print(password_hash)
+        print(other_password)
+        return hmac.compare_digest(
+            base64.urlsafe_b64decode(password_hash),
+            hashlib.pbkdf2_hmac(
+                'sha256',
+                other_password.encode(),
+                PWD_HASH_SALT,
+                PWD_HASH_ITERATIONS)
+        )
 
     def create(self, user_data):
-        user_data['password'] = self.get_hash(user_data['password'])
+        user_data['password'] = self.get_hash(user_data.get("password"))
         return self.dao.create(user_data)
 
     def update(self, user_data):
-        user_data['password'] = self.get_hash(user_data['password'])
+        user_data['password'] = self.get_hash(user_data.get("password"))
         return self.dao.update(user_data)
 
     def delete(self, uid):

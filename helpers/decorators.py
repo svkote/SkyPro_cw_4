@@ -13,14 +13,12 @@ def auth_required(func):
             abort(401)
 
         data = request.headers['Authorization']
-        token = data.split('Bearer ')[-1]
-
+        token = data.split("Bearer ")[-1]
         try:
             jwt.decode(token, SECRET, algorithms=[ALGO])
         except Exception as e:
-            print('JWT Decode exception: ', e)
+            print("JWT Decode Exception", e)
             abort(401)
-
         return func(*args, **kwargs)
 
     return wrapper
@@ -36,12 +34,12 @@ def admin_required(func):
 
         try:
             user = jwt.decode(token, SECRET, algorithms=[ALGO])
-            if user['role'] != 'admin':
-                return 'access denied'
+            role = user.get("role")
+            if role != "admin":
+                abort(400)
         except Exception as e:
-            print('JWT Decode exception: ', e)
+            print("JWT Decode Exception", e)
             abort(401)
-
         return func(*args, **kwargs)
 
     return wrapper
