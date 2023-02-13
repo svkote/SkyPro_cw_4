@@ -12,7 +12,7 @@ class AuthView(Resource):
 
     def post(self):
         data = request.json
-
+        print(data)
         username = data.get('username')
         password = data.get('password')
 

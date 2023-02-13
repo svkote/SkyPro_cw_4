@@ -92,3 +92,15 @@ Content-Type: application/json
 ###
 
 DELETE http://127.0.0.1:5000/movies/21
+
+###
+
+POST http://localhost:5000/auth/
+Accept: application/json
+Content-Type: application/json
+
+{
+  "username": "oleg",
+  "password": "P@ssw0rd",
+  "role": "user"
+}
