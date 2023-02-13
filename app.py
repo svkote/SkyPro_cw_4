@@ -19,26 +19,25 @@ def create_app(config_object):
     return app
 
 
-def create_data(app, db):
-    with app.app_context():
-        db.create_all()
-
-        users = [
-            {'username': "vasya", 'password': "my_little_pony", 'role': "user"},
-            {'username': "oleg", 'password': "qwerty", 'role': "user"},
-            {'username': "oleg", 'password': "P@ssw0rd", 'role': "admin"}
-        ]
-
-        for user in users:
-            user_service.create(user)
+# def create_data(app, db):
+#     with app.app_context():
+#         db.create_all()
+#         users = [
+#             {'username': "vasya", 'password': "my_little_pony", 'role': "user"},
+#             {'username': "oleg", 'password': "qwerty", 'role': "user"},
+#             {'username': "oleg", 'password': "P@ssw0rd", 'role': "admin"}
+#         ]
+#
+#         for user in users:
+#             user_service.create(user)
 
 
 def register_extensions(app):
     db.init_app(app)
-    create_data(app, db)
+    # create_data(app, db)
 
-    with app.app_context():
-        db.create_all()
+    # with app.app_context():
+    #     db.create_all()
     api = Api(app)
     api.add_namespace(director_ns)
     api.add_namespace(genre_ns)
