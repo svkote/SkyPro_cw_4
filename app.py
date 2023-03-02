@@ -30,11 +30,14 @@ def create_app(config_object):
 #
 #         for user in users:
 #             user_service.create(user)
+def create_data(app, db):
+    with app.app_context():
+        db.create_all()
 
 
 def register_extensions(app):
     db.init_app(app)
-    # create_data(app, db)
+    create_data(app, db)
 
     # with app.app_context():
     #     db.create_all()
